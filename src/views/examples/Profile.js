@@ -62,6 +62,7 @@ const Profile = () => {
         })
           .then(function (response) {
             const apiResponse = response.data.results;
+
             setProfile(response.data.results);
 
             setState({
@@ -70,6 +71,7 @@ const Profile = () => {
               first_name: apiResponse?.length > 0 && apiResponse[0]?.first_name,
               last_name: apiResponse?.length > 0 && apiResponse[0]?.last_name,
               email: apiResponse?.length > 0 && apiResponse[0]?.email,
+              dob: apiResponse?.length > 0 && apiResponse[0]?.dob,
             });
           })
           .catch(function (thrown) {
@@ -293,6 +295,26 @@ const Profile = () => {
                             name="last_name"
                             placeholder="Last name"
                             type="text"
+                            onChange={handleChange}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-first-name"
+                          >
+                            Date of Birth
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            value={state?.dob}
+                            name="dob"
+                            placeholder="Date of Birth"
+                            type="date"
                             onChange={handleChange}
                           />
                         </FormGroup>

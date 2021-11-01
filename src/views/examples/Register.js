@@ -26,9 +26,17 @@ const Register = (props) => {
   const [lastName, setLastName] = React.useState("");
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [dob, setDob] = React.useState("");
 
   const signUp = async () => {
-    if (!!email && !!firstName && !!phoneNumber && !!lastName && !!password) {
+    if (
+      !!email &&
+      !!firstName &&
+      !!phoneNumber &&
+      !!lastName &&
+      !!password &&
+      !!dob
+    ) {
       axios({
         method: "post",
         url: baseUrl.loginUrl + "register/",
@@ -40,6 +48,7 @@ const Register = (props) => {
           phone_number: phoneNumber,
           password: password,
           confirm_password: password,
+          dob: dob,
         },
       })
         .then(function ({ data }) {
@@ -129,6 +138,21 @@ const Register = (props) => {
                     type="text"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </InputGroup>
+              </FormGroup>
+              <FormGroup>
+                <InputGroup className="input-group-alternative mb-3">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="ni ni-hat-3" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    placeholder="Date of Birth"
+                    type="date"
+                    value={dob}
+                    onChange={(e) => setDob(e.target.value)}
                   />
                 </InputGroup>
               </FormGroup>
