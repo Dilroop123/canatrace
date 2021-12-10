@@ -14,12 +14,14 @@ import "../src/assets/css/argon-dashboard-react.css";
 
 import AdminLayout from "layouts/Admin.js";
 import AuthLayout from "layouts/Auth.js";
+import PasswordReset from "layouts/PasswordReset"
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+      <Route path="/password" render={(props) => <PasswordReset {...props} />} />
       <Redirect from="/" to="/auth/index" />
     </Switch>
   </BrowserRouter>,

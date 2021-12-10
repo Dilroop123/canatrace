@@ -6,6 +6,8 @@ import Login from "views/examples/Login.js";
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 import Documents from "views/examples/Documents.js";
+import Results from "views/examples/Results";
+import PasswordReset from "layouts/PasswordReset";
 
 var routes = [
   // {
@@ -37,6 +39,13 @@ var routes = [
     layout: "/admin",
   },
   {
+    path: "/results",
+    name: "Results",
+    icon: "ni ni-single-02 text-yellow",
+    component: Results,
+    layout: "/admin",
+  },
+  {
     path: "/user-profile",
     name: "User Profile",
     icon: "ni ni-single-02 text-yellow",
@@ -64,5 +73,6 @@ var routes = [
     component: Register,
     layout: "/auth",
   },
+
 ];
 export default routes;

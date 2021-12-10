@@ -1,22 +1,11 @@
 /*!
 
 =========================================================
-* Argon Dashboard React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
 /*eslint-disable*/
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
@@ -51,6 +40,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import baseUrl from ".././../assets/constants/baseUrl";
+import placeholder from "../../assets/img/icons/common/placeholder.png";
 
 var ps;
 
@@ -101,6 +92,44 @@ const Sidebar = (props) => {
     };
   }
 
+
+  const [avatar, setAvatar] = useState();
+  // stores avatar, defaults to placeholder if none exists for current user
+  const userId = localStorage.getItem("pk");
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      // if (!profile.pk || !profile.token) return;
+
+      try {
+        const { data } = await axios.get(
+          `${baseUrl.url}assets/${userId}/?key=avatar`,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+        setAvatar(data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const logOut = () => {
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("pk");
+    window.localStorage.removeItem("username");
+    props.history.push("/auth");
+  };
+
   return (
     <Navbar
       className="navbar-vertical fixed-left navbar-light bg-white"
@@ -123,6 +152,7 @@ const Sidebar = (props) => {
               alt={logo.imgAlt}
               className="navbar-brand-img"
               src={logo.imgSrc}
+              style={{ height: "200px", width: "100px" }}
             />
           </NavbarBrand>
         ) : null}
@@ -149,10 +179,8 @@ const Sidebar = (props) => {
                 <span className="avatar avatar-sm rounded-circle">
                   <img
                     alt="..."
-                    src={
-                      require("../../assets/img/theme/team-1-800x800.jpg")
-                        .default
-                    }
+                    src={avatar}
+                    onError={(e) => (e.currentTarget.src = placeholder)}
                   />
                 </span>
               </Media>
@@ -161,24 +189,20 @@ const Sidebar = (props) => {
               <DropdownItem className="noti-title" header tag="div">
                 <h6 className="text-overflow m-0">Welcome!</h6>
               </DropdownItem>
+              <DropdownItem divider />
               <DropdownItem to="/admin/user-profile" tag={Link}>
                 <i className="ni ni-single-02" />
-                <span>My profile</span>
+                <span>My Profile</span>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-settings-gear-65" />
-                <span>Settings</span>
+              <DropdownItem to="/admin/documents" tag={Link}>
+                <i className="ni ni-single-02" />
+                <span>Documents</span>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-calendar-grid-58" />
-                <span>Activity</span>
+              <DropdownItem to="/admin/results" tag={Link}>
+                <i className="ni ni-single-02" />
+                <span>Test Results</span>
               </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-support-16" />
-                <span>Support</span>
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+              <DropdownItem href="#pablo" onClick={() => logOut()}>
                 <i className="ni ni-user-run" />
                 <span>Logout</span>
               </DropdownItem>

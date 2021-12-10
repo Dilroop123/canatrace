@@ -69,7 +69,7 @@ const AdminNavbar = (props) => {
           >
             {props.brandText}
           </Link>
-          <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+          {/* <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
             <FormGroup className="mb-0">
               <InputGroup className="input-group-alternative">
                 <InputGroupAddon addonType="prepend">
@@ -80,7 +80,7 @@ const AdminNavbar = (props) => {
                 <Input placeholder="Search" type="text" />
               </InputGroup>
             </FormGroup>
-          </Form>
+          </Form> */}
           <Nav className="align-items-center d-none d-md-flex" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
@@ -104,11 +104,19 @@ const AdminNavbar = (props) => {
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Welcome!</h6>
                 </DropdownItem>
+                <DropdownItem divider />
                 <DropdownItem to="/admin/user-profile" tag={Link}>
                   <i className="ni ni-single-02" />
-                  <span>My profile</span>
+                  <span>My Profile</span>
                 </DropdownItem>
-                <DropdownItem divider />
+                <DropdownItem to="/admin/documents" tag={Link}>
+                  <i className="ni ni-single-02" />
+                  <span>Documents</span>
+                </DropdownItem>
+                <DropdownItem to="/admin/results" tag={Link}>
+                  <i className="ni ni-single-02" />
+                  <span>Test Results</span>
+                </DropdownItem>
                 <DropdownItem href="#pablo" onClick={() => logOut()}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
