@@ -44,7 +44,7 @@ const PasswordReset = (props) => {
   const updatePassword = () => {
     axios({
       method: "post",
-      url: "http://localhost:8000/api/password_reset/confirm/",
+      url: "http://3.212.59.178/api/password_reset/confirm/",
       data: {
         token: token,
         password: password,
