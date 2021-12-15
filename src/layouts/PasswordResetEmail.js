@@ -22,11 +22,10 @@ import {
 } from "reactstrap";
 import baseUrl from "assets/constants/baseUrl";
 
-const PasswordReset = (props) => {
+const PasswordResetEmail = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
-  const [password, setPassword] = React.useState("");
-  const [token, setToken] = React.useState();
+  const [email, setEmail] = React.useState("");
 
   React.useEffect(() => {
     document.body.classList.add("bg-default");
@@ -36,37 +35,28 @@ const PasswordReset = (props) => {
   }, []);
 
 
-  React.useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    setToken(urlParams.get('token'))
-  }, []);
 
-  const updatePassword = () => {
-    axios({
-      method: "post",
-      url: `${baseUrl.loginUrl}api/password_reset/confirm/`,
-      data: {
-        token: token,
-        password: password,
 
-      },
-    })
-      .then(function ({ data }) {
 
-        if (data?.status === "OK") {
-          alert("Cheers !! Your password has been updated");
-        }
-        // dispatch({ type: "LOGIN", id: username, token: data.token });
-      })
-      .catch(function (thrown) {
-        if (axios.isCancel(thrown)) {
-          console.error("Request canceled", thrown.message);
-        } else {
-          alert(thrown);
-        }
-      });
-  }
+  const sendEmail = async () => {
+    try {
+
+
+      await axios.post(
+        `${baseUrl.loginUrl}api/password_reset/`,
+        { email: email },
+      );
+
+
+      alert('Verification Email Has Been Sent. Please Check Your Mail Box.')
+
+    } catch (e) {
+      console.error(e);
+
+      alert('Server Not Responding')
+    }
+  };
+
 
   return (
     <>
@@ -108,7 +98,7 @@ const PasswordReset = (props) => {
               <Card className="bg-secondary shadow border-0">
                 <CardBody className="px-lg-5 py-lg-5">
                   <div className="text-center text-muted mb-4">
-                    <small>Enter your new password</small>
+                    <small>Enter your account email</small>
                   </div>
                   <Form role="form">
 
@@ -120,10 +110,10 @@ const PasswordReset = (props) => {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder="Password"
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="Email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                       </InputGroup>
                     </FormGroup>
@@ -133,9 +123,9 @@ const PasswordReset = (props) => {
                         className="my-4"
                         color="primary"
                         type="button"
-                        onClick={() => updatePassword()}
+                        onClick={() => sendEmail()}
                       >
-                        Update
+                        Send Email
                       </Button>
                     </div>
                   </Form>
@@ -151,4 +141,4 @@ const PasswordReset = (props) => {
   );
 };
 
-export default PasswordReset;
+export default PasswordResetEmail;
