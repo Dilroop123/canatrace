@@ -118,8 +118,8 @@ const Login = (props) => {
           <Col xs="6">
             <a
               className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
+
+              onClick={(e) => props.history.push("/forget/email")}
             >
               <small>Forgot password?</small>
             </a>
